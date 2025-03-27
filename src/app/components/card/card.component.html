@@ -1,0 +1,16 @@
+<div class="w-70 h-96 rounded-xl p-7 flex flex-col justify-start items-center bg-gray-100/25 border">
+    <img src="{{imgUrl}}" alt="img" class="size-56 border rounded-lg mb-5 object-cover">
+
+    <div class="w-full flex justify-between items-center">
+        <h2 class="text-start">{{title}}</h2>
+
+        <button [ngClass]="hasLiked? 'text-red-500' : 'text-teal-50'" class="text-xl" (click)="handleLike()">❤</button>
+    </div>
+
+    <p class="text-sm text-neutral-500 line-clamp-3">{{content}}</p>
+</div>
+
+
+
+<!-- @if (hasLiked) {<button class="text-teal-200" (click)="handleLike()">❤</button>}
+@else {<button class="text-red-500" (click)="handleLike()">❤</button>} -->
