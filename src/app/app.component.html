@@ -1,17 +1,40 @@
 <main class="h-screen w-screen overflow-y-scroll scrollbar-none">
-  <div class="pattern"></div>
+    <div class="pattern"></div>
 
-  <div class="wrapper">
-    <header>
-      <h1>Find <span class="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
-    </header>
+    <div class="wrapper">
+        <header>
+            <img
+                src="./hero.png"
+                alt="Hero Image"
+            >
+            <h1>Find <span class="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
+            <app-search
+                [query]="query"
+                [setQuery]="setQuery"
+            ></app-search>
+        </header>
 
-    <p>Search</p>
-  </div>
+        <section class="all-movies">
+            <h2>All movies</h2>
+            @if (isLoading) {<p class="text-white text-center">Loading...</p>}
+            @else if (error) {<p class="text-red-500 text-center">{{error}}</p>}
+            @else {
+            <ul>
+                @for (movie of movies; track movie.id) {
+                <p class="my-5 text-white">
+                    {{movie.title}}
+                </p>}
+            </ul>}
+        </section>
+    </div>
 
-  <div class="w-screen px-10 grid grid-cols-4 justify-center items-center overflow-hidden">
-    @for (item of movies; track item) {
-    <app-card [title]="item.name" [content]="item.content" [imgUrl]="item.img"></app-card>
-    }
-  </div>
+    <!-- <div class="w-screen px-10 grid grid-cols-4 justify-center items-center overflow-hidden">
+        @for (movie of movies; track movie.id) {
+        <app-card
+            [title]="movie.title"
+            [content]="movie.content"
+            [imgUrl]="movie.image"
+        ></app-card>
+        }
+    </div> -->
 </main>

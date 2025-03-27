@@ -10,7 +10,7 @@ export class CardComponent {
 
   @Input() title: string = ""
   @Input() content: string | undefined = ""
-  @Input() imgUrl: string | null = null
+  @Input() imgUrl: string | null = null    
 
   hasLiked: boolean = false
   likesCount: number = 0
