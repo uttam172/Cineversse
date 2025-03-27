@@ -1,11 +1,17 @@
-<div class="h-screen w-screen overflow-y-scroll scrollbar-none">
-  <h1 class="text-3xl font-bold text-purple-400 text-center">
-    Movies
-  </h1>
+<main class="h-screen w-screen overflow-y-scroll scrollbar-none">
+  <div class="pattern"></div>
+
+  <div class="wrapper">
+    <header>
+      <h1>Find <span class="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
+    </header>
+
+    <p>Search</p>
+  </div>
 
   <div class="w-screen px-10 grid grid-cols-4 justify-center items-center overflow-hidden">
     @for (item of movies; track item) {
     <app-card [title]="item.name" [content]="item.content" [imgUrl]="item.img"></app-card>
     }
   </div>
-</div>
+</main>

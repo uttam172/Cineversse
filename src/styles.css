@@ -143,6 +143,12 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility text-gradient {
   @apply bg-linear-to-r from-[#D6C7FF] to-[#AB8BFF] bg-clip-text text-transparent;
 }
@@ -160,10 +166,4 @@
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-@layer utilities {
-    .scrollbar-none::-webkit-scrollbar {
-        display: none;
-    }
 }
