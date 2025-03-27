@@ -1,9 +1,9 @@
 <div class="h-screen w-screen overflow-y-scroll scrollbar-none">
-  <h1 class="text-3xl font-bold underline text-purple-400 text-center">
-    Hello world!
+  <h1 class="text-3xl font-bold text-purple-400 text-center">
+    Movies
   </h1>
 
-  <div class="w-screen px-10 grid grid-cols-4 justify-center items-center ">
+  <div class="w-screen px-10 grid grid-cols-4 justify-center items-center overflow-hidden">
     @for (item of movies; track item) {
     <app-card [title]="item.name" [content]="item.content" [imgUrl]="item.img"></app-card>
     }

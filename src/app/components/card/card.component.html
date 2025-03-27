@@ -1,13 +1,18 @@
-<div class="w-70 h-96 rounded-xl p-7 flex flex-col justify-start items-center bg-gray-100/25 border">
-    <img src="{{imgUrl}}" alt="img" class="size-56 border rounded-lg mb-5 object-cover">
+<div
+    class="w-70 h-[480px] rounded-xl p-5 m-5 flex flex-col justify-start items-center bg-gray-100/25 hover:scale-[1.03] transition-all border">
+    <img src="{{imgUrl}}" alt="img" class="w-56 h-80 rounded-lg mb-5 object-cover">
 
-    <div class="w-full flex justify-between items-center">
+    <div class="w-full flex flex-col justify-center items-start">
         <h2 class="text-start">{{title}}</h2>
 
-        <button [ngClass]="hasLiked? 'text-red-500' : 'text-teal-50'" class="text-xl" (click)="handleLike()">❤</button>
+        <div class="flex justify-center items-center gap-3">
+            <button [ngClass]="hasLiked? 'text-red-500' : 'text-teal-50'" class="text-xl"
+                (click)="handleLike()">❤</button>
+            <span class="text-sm text-gray-600">{{likesCount}} likes</span>
+        </div>
     </div>
 
-    <p class="text-sm text-neutral-500 line-clamp-3">{{content}}</p>
+    <p class="text-sm text-neutral-500 line-clamp-3 mt-1">{{content}}</p>
 </div>
 
 

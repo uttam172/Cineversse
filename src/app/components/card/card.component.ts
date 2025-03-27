@@ -13,11 +13,12 @@ export class CardComponent {
   @Input() content: string | undefined = ""
   @Input() imgUrl: string | null = null
 
-
-
   hasLiked: boolean = false
+  likesCount: number = 0
 
   handleLike() {
+    console.log(this.title, "has been liked", !this.hasLiked)
+    this.likesCount += this.hasLiked? -1 : 1
     return this.hasLiked =!this.hasLiked
   }
 
