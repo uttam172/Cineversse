@@ -34,8 +34,8 @@ export class AppComponent {
   async ngOnInit() {
     this.tmdbService.fetchMovies().subscribe({
       next: (data: any) => {
-        const fetchedMovies = JSON.stringify(data.results, null, 2)
-        console.log(fetchedMovies);
+        // const fetchedMovies = JSON.stringify(data.results, null, 2)
+        // console.log(fetchedMovies);
         this.movies = data.results
       }, 
       error: (err: string) => {
