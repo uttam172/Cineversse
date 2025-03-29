@@ -16,7 +16,7 @@ export class TmdbApiService {
   constructor(private http: HttpClient) { }
 
   fetchMovies(): Observable<any> {
-    return this.http.get<Movie[]>(`${this.baseUrl}?sort_by=popularity.desc`).pipe(
+    return this.http.get<Movie[]>(`${this.baseUrl}?sort_by=popularity.desc`, apiOptions).pipe(
       catchError(err => {
         console.log("Error fetching Movies:", err)
         return throwError(() => new Error("Failed to fatch movies"))
