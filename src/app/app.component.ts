@@ -46,6 +46,7 @@ export class AppComponent {
         if(this.query && data.results.length > 0) {
           updateSearchCount(this.query, data.results[0])
         }
+        console.log("From app.component.js: ", data);
       },
       error: (err: string) => {
         console.log('API error:', err);

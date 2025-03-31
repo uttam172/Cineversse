@@ -14,14 +14,14 @@ const client: any = new Client()
 
 const database = new Databases(client)
 
-export const updateSearchCount = async (searchTearm: string, movie: Movie[]) => {
+export const updateSearchCount = async (searchTearm: string, movie: any) => {
     console.log("appwrite file: ", searchTearm, movie)
     try {
         const result = await database.listDocuments(databaseId, collectionId, 
             [Query.equal('searchTearm', searchTearm.trim().toLocaleLowerCase())])
         if (result.documents.length > 0) {
             const doc = result.documents[0]
-            const updatedCount = (doc["count"] ?? 0) + 1
+            const updatedCount = doc[0].count + 1
             await database.updateDocument(databaseId, collectionId, doc.$id, {
                 count: updatedCount
             })
@@ -29,7 +29,7 @@ export const updateSearchCount = async (searchTearm: string, movie: Movie[]) => 
             await database.createDocument( databaseId, collectionId, ID.unique(), {
                 searchTearm, 
                 count: 1, 
-                movie_id: movie[0].id, 
+                movie_id: movie.id, 
                 poster_url: `https://image.tmdb.org/t/p/w500${movie[0].poster_path}` 
             })
         }
