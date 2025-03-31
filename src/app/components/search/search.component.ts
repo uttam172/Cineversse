@@ -7,13 +7,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class SearchComponent {
 
-  @Input() query!: string 
-  @Input() setQuery!: (val:string) => void 
-  // @Output() setQuery = new EventEmitter<void>()
+  query: string = ""
+
+  @Output() queryChange = new EventEmitter<string>()
 
   onChange(e: Event) {
-    const inputValue = (e.target as HTMLInputElement).value
-    this.setQuery(inputValue)
+    this.query = (e.target as HTMLInputElement).value
+    this.queryChange.emit(this.query)
   }
 
 }

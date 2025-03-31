@@ -1,19 +1,38 @@
-<div class="w-70 h-[480px] rounded-xl p-5 m-5 flex flex-col justify-start items-center bg-gray-100/25 hover:scale-[1.03] transition-all border">
-    <img src="{{imgUrl}}" alt="img" class="w-56 h-72 rounded-lg mb-5 object-cover">
+<div class="movie-card">
+    <img
+        [src]="movie.poster_path ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}` : './no-movie.png'"
+        alt="{{movie.title}}"
+        class=""
+    >
 
-    <div class="w-full flex flex-col justify-center items-start">
-        <h2 class="text-start">{{title}}</h2>
+    <div class="mt-4">
+        <h3 class="">{{movie.title}}</h3>
 
-        <div class="flex justify-center items-center gap-3">
-            <button [ngClass]="hasLiked? 'text-red-500' : 'text-teal-50'" class="text-xl" (click)="handleLike()">❤</button>
-            <span class="text-sm text-gray-600">{{likesCount}} likes</span>
+        <div class="content">
+            <div class="rating">
+                <img
+                    src="star.svg"
+                    alt="star"
+                >
+                <p>{{movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}}</p>
+            </div>
+            <span>•</span>
+            <p class="lang">{{movie.original_language}}</p>
+            <span>•</span>
+            <p class="year">{{movie.release_date ? movie.release_date.split("-")[0] : 'N/A'}}</p>
         </div>
     </div>
-
-    <p class="text-sm text-neutral-500 line-clamp-3 mt-1">{{content}}</p>
 </div>
 
 
 
 <!-- @if (hasLiked) {<button class="text-teal-200" (click)="handleLike()">❤</button>}
 @else {<button class="text-red-500" (click)="handleLike()">❤</button>} -->
+
+
+<!-- <button
+    [ngClass]="hasLiked? 'text-red-500' : 'text-teal-50'"
+    class="text-xl"
+    (click)="handleLike()"
+>❤</button>
+<span class="text-sm text-gray-600">{{likesCount}} likes</span> -->

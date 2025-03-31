@@ -8,33 +8,19 @@
                 alt="Hero Image"
             >
             <h1>Find <span class="text-gradient">Movies</span> You'll Enjoy Without the Hassle</h1>
-            <app-search
-                [query]="query"
-                [setQuery]="setQuery"
-            ></app-search>
+            <app-search (queryChange)="setQuery($event)"></app-search>
         </header>
 
         <section class="all-movies">
-            <h2>All movies</h2>
-            @if (isLoading) {<p class="text-white text-center">Loading...</p>}
+            <h2 class="mt-10">All movies</h2>
+            @if (isLoading) {<div class="w-full flex justify-center items-center"><app-spinner></app-spinner></div>}
             @else if (error) {<p class="text-red-500 text-center">{{error}}</p>}
             @else {
             <ul>
                 @for (movie of movies; track movie.id) {
-                <p class="my-5 text-white">
-                    {{movie.title}}
-                </p>}
+                <app-card [movie]="movie"></app-card>
+                }
             </ul>}
         </section>
     </div>
-
-    <!-- <div class="w-screen px-10 grid grid-cols-4 justify-center items-center overflow-hidden">
-        @for (movie of movies; track movie.id) {
-        <app-card
-            [title]="movie.title"
-            [content]="movie.content"
-            [imgUrl]="movie.image"
-        ></app-card>
-        }
-    </div> -->
 </main>

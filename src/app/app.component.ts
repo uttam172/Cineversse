@@ -8,34 +8,43 @@ import { SearchComponent } from './components/search/search.component';
 
 import { Movie } from './models/movie.model';
 import { CommonModule } from '@angular/common';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'
 
 @Component({
   selector: 'app-root',
-  imports: [CardComponent, SearchComponent, CommonModule],
+  standalone: true,
+  imports: [CardComponent, SearchComponent, CommonModule, SpinnerComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
 
-  query: string = ""
   movies: Movie[] = []
   error: string = ""
   isLoading: boolean = false
+  query: string = ""
 
-  setQuery(val: string) { this.query = val }
+  private searchSubject = new Subject<string>()
 
-  constructor(private tmdbService: TmdbApiService) {
-    this.isLoading = true
-    this.error = ""
-    this.movies = []
-    this.query = ""
-    this.isLoading = false
+  constructor(private tmdbService: TmdbApiService) {  
+    this.searchSubject.subscribe(value => {
+      this.query = value; 
+      console.log("Latest Query:", this.query);
+    });
   }
 
-  async ngOnInit() {
-    this.tmdbService.fetchMovies().subscribe({
+  setQuery(val: string) {
+    this.searchSubject.next(val)
+  }
+
+  getQuery(): string {
+    return this.query
+  }
+
+  ngOnInit() {
+    this.tmdbService.fetchMovies(this.query).subscribe({
       next: (data: any) => {
-        // const fetchedMovies = JSON.stringify(data.results, null, 2)
-        // console.log(fetchedMovies);
         this.movies = data.results
       }, 
       error: (err: string) => {
