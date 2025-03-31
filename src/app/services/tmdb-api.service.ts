@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { environment, apiOptions } from '../../environments/environment';
+import { updateSearchCount } from '../../appwrite';
 import { catchError } from 'rxjs';
 import { throwError, Observable } from 'rxjs';
 

@@ -11,3 +11,9 @@ export const apiOptions = {
         authorization: `Bearer ${environment.apiKey}`
     }
 }
+
+export const appwrite = {
+    projectKey: '67ea562b00216cfe9e50',
+    databaseId: '67ea56fc002691272bdb',
+    collectionId: '67ea57340038ca287601',
+}

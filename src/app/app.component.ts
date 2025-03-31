@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { TmdbApiService } from './services/tmdb-api.service';
 
+
 import { CardComponent } from './components/card/card.component';
 import { SearchComponent } from './components/search/search.component';
 
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
+import { updateSearchCount } from '../appwrite';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +43,9 @@ export class AppComponent {
       next: (data: any) => {
         this.movies = data.results;
         this.isLoading = false;
+        if(this.query && data.results.length > 0) {
+          updateSearchCount(this.query, data.results[0])
+        }
       },
       error: (err: string) => {
         console.log('API error:', err);
