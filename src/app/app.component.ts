@@ -10,7 +10,7 @@ import { Movie } from './models/movie.model';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs'
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -27,34 +27,47 @@ export class AppComponent {
 
   private searchSubject = new Subject<string>()
 
-  constructor(private tmdbService: TmdbApiService) {  
-    this.searchSubject.subscribe(value => {
-      this.query = value; 
-      console.log("Latest Query:", this.query);
-    });
+  constructor(private tmdbService: TmdbApiService) {}
+
+  ngOnInit() {
+    this.searchSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged(), 
+      switchMap((query) => {
+        this.isLoading = true;
+        return this.tmdbService.fetchMovies(query)
+      })
+    ).subscribe({
+      next: (data: any) => {
+        this.movies = data.results;
+        this.isLoading = false;
+      },
+      error: (err: string) => {
+        console.log('API error:', err);
+        this.error = 'Problem fetching movies, Try again later';
+        this.isLoading = false;
+      }
+    })
+    this.fetchMovies('');
   }
 
   setQuery(val: string) {
-    this.searchSubject.next(val)
+    this.searchSubject.next(val);
   }
 
-  getQuery(): string {
-    return this.query
-  }
-
-  ngOnInit() {
-    this.tmdbService.fetchMovies(this.query).subscribe({
+  fetchMovies(query: string) {
+    this.isLoading = true;
+    this.tmdbService.fetchMovies(query).subscribe({
       next: (data: any) => {
-        this.movies = data.results
-      }, 
-      error: (err: string) => {
-        console.log("API error: ", err)
-        this.error = "Problem fetching movies, Try again later"
+        this.movies = data.results;
+        this.isLoading = false;
       },
-      complete: () => {
-        this.isLoading = false
+      error: (err: string) => {
+        console.log('API error:', err);
+        this.error = 'Problem fetching movies, Try again later';
+        this.isLoading = false;
       }
-    })
+    });
   }
 }
 
