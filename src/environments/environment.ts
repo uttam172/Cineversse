@@ -4,14 +4,6 @@ export const environment = {
     apiKey: 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhMGRmYWZhNDMxMDAwMWUwMmFjNjYwMmIyMDJkMThiMyIsIm5iZiI6MTc0MzA2ODQ4Ni41Mywic3ViIjoiNjdlNTFkNDY1ZjNlMGFjMTg4MDAyMWE3Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.aZTdxW6DyEQInlvQGc7UzikCl_WYRxR4OO9vk7pHEEs',
 }
 
-export const apiOptions = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${environment.apiKey}`
-    }
-}
-
 export const appwrite = {
     projectKey: '67ea562b00216cfe9e50',
     databaseId: '67ecb88f0012fff2553b',
