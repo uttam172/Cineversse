@@ -5,13 +5,24 @@ import { Client, Databases, ID, Query } from 'appwrite'
 const PROJECT_ID: string = appwrite.projectKey
 const DATABASE_ID: string = appwrite.databaseId
 const COLLECTION_ID: string = appwrite.collectionId
+const BOOKMARKS_ID: string = appwrite.bookmarksCollectionId
 
-export interface SearchDocument {
+interface SearchDocument {
     $id: string;
     searchTerm: string;
     count: number;
     movie_id: number;
     poster_url: string;
+}
+
+interface Bookmarks {
+    $id: string
+    movie_id: number
+    movieTitle: string
+    moviePoster: string
+    movieVote: number
+    movieLanguage: string
+    movieRelease: string
 }
 
 function isSearchDocument(doc: any): doc is SearchDocument {
@@ -64,5 +75,33 @@ export const updateSearchCount = async (searchTerm: string, movie: any) => {
         }
     } catch (e) {
         console.error("Error updating search count:", e);
+    }
+};
+
+export const createBookmark = async (bookmark: Omit<Bookmarks, '$id'>) => {
+    try {
+        if (!bookmark.movie_id || !bookmark.movieTitle || !bookmark.moviePoster || !bookmark.movieVote || !bookmark.movieLanguage || !bookmark.movieRelease) {
+            throw new Error("Missing required bookmark fields");
+        }
+
+        const response = await database.createDocument(
+            DATABASE_ID,
+            COLLECTION_ID,
+            ID.unique(), 
+            {
+                movie_id: bookmark.movie_id,
+                movieTitle: bookmark.movieTitle,
+                moviePoster: bookmark.moviePoster,
+                movieVote: bookmark.movieVote,
+                movieLanguage: bookmark.movieLanguage,
+                movieRelease: bookmark.movieRelease
+            }
+        );
+
+        console.log("Bookmark created successfully:", response);
+        return response;
+    } catch (error) {
+        console.error("Error creating bookmark:", error);
+        return null;
     }
 };
