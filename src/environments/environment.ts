@@ -14,6 +14,6 @@ export const apiOptions = {
 
 export const appwrite = {
     projectKey: '67ea562b00216cfe9e50',
-    databaseId: '67ea56fc002691272bdb',
-    collectionId: '67ea57340038ca287601',
+    databaseId: '67ecb88f0012fff2553b',
+    collectionId: '67ecb8b90021c37b7d6b',
 }

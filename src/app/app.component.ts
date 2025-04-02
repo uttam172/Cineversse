@@ -34,7 +34,7 @@ export class AppComponent {
   ngOnInit() {
     this.searchSubject.pipe(
       debounceTime(500),
-      distinctUntilChanged(), 
+      distinctUntilChanged(),
       switchMap((query) => {
         this.isLoading = true;
         return this.tmdbService.fetchMovies(query)
@@ -43,7 +43,8 @@ export class AppComponent {
       next: (data: any) => {
         this.movies = data.results;
         this.isLoading = false;
-        if(this.query && data.results.length > 0) {
+        if (this.query && data.results.length > 0) {
+          console.log(this.query, data.results[0]);
           updateSearchCount(this.query, data.results[0])
         }
         console.log("From app.component.js: ", data);
