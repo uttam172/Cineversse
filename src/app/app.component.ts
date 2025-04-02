@@ -12,7 +12,7 @@ import { Movie } from './models/movie.model';
 import { CommonModule } from '@angular/common';
 
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
-import { updateSearchCount } from '../appwrite';
+import { updateSearchCount } from '../appwrite'
 
 @Component({
   selector: 'app-root',
