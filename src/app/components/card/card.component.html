@@ -6,7 +6,15 @@
     >
 
     <div class="mt-4">
-        <h3 class="">{{movie.title}}</h3>
+        <div>
+            <h3 class="">{{movie.title}}</h3>
+            <button (click)="handleBookmark()" type="button">
+                <lucide-icon
+                    [img]="Bookmark"
+                    class="text-gray-50 sixe-5"
+                ></lucide-icon>
+            </button>
+        </div>
 
         <div class="content">
             <div class="rating">

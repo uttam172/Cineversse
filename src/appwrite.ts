@@ -15,16 +15,6 @@ interface SearchDocument {
     poster_url: string;
 }
 
-interface Bookmarks {
-    $id: string
-    movie_id: number
-    movieTitle: string
-    moviePoster: string
-    movieVote: number
-    movieLanguage: string
-    movieRelease: string
-}
-
 function isSearchDocument(doc: any): doc is SearchDocument {
     return (
         typeof doc === 'object' &&
@@ -78,23 +68,23 @@ export const updateSearchCount = async (searchTerm: string, movie: any) => {
     }
 };
 
-export const createBookmark = async (bookmark: Omit<Bookmarks, '$id'>) => {
+export const createBookmark = async (movie:any) => {
     try {
-        if (!bookmark.movie_id || !bookmark.movieTitle || !bookmark.moviePoster || !bookmark.movieVote || !bookmark.movieLanguage || !bookmark.movieRelease) {
+        if (!movie || !movie.id || !movie.title || !movie.poster_path || !movie.vote_average || !movie.original_language || !movie.release_date) {
             throw new Error("Missing required bookmark fields");
         }
 
         const response = await database.createDocument(
             DATABASE_ID,
-            COLLECTION_ID,
+            BOOKMARKS_ID,
             ID.unique(), 
             {
-                movie_id: bookmark.movie_id,
-                movieTitle: bookmark.movieTitle,
-                moviePoster: bookmark.moviePoster,
-                movieVote: bookmark.movieVote,
-                movieLanguage: bookmark.movieLanguage,
-                movieRelease: bookmark.movieRelease
+                movie_id: movie.id,
+                movieTitle: movie.title,
+                moviePoster: movie.poster_path,
+                movieVote: movie.vote_average,
+                movieLanguage: movie.original_language,
+                movieRelease: movie.release_date
             }
         );
 

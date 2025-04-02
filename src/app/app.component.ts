@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router';
 
 import { TmdbApiService } from './services/tmdb-api.service';
 
-
 import { CardComponent } from './components/card/card.component';
 import { SearchComponent } from './components/search/search.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
+import { HeaderComponent } from './components/header/header.component';
 
 import { Movie } from './models/movie.model';
 import { CommonModule } from '@angular/common';
-import { SpinnerComponent } from './components/spinner/spinner.component';
 
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
 import { updateSearchCount } from '../appwrite';
@@ -17,7 +17,7 @@ import { updateSearchCount } from '../appwrite';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CardComponent, SearchComponent, CommonModule, SpinnerComponent],
+  imports: [CardComponent, SearchComponent, CommonModule, SpinnerComponent, RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
