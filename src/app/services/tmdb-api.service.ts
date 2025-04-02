@@ -23,6 +23,7 @@ export class TmdbApiService {
     }
   }
 
+  
   fetchMovies(query: string = ""): Observable<any> {
     return this.http.get<Movie[]>(query
       ? `${this.baseUrl}/search/movie?query=${encodeURI(query)}`

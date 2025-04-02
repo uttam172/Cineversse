@@ -1,5 +1,5 @@
 
-import { appwrite } from "./environments/environment";
+import { appwrite } from "./environments/environment"
 import { Client, Databases, ID, Query } from 'appwrite'
 
 const PROJECT_ID: string = appwrite.projectKey
