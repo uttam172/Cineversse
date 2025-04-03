@@ -6,13 +6,11 @@
     >
 
     <div class="mt-4">
-        <div>
+        <div class="flex justify-between items-center">
             <h3 class="">{{movie.title}}</h3>
             <button (click)="handleBookmark()" type="button">
-                <lucide-icon
-                    [img]="Bookmark"
-                    class="text-gray-50 size-5"
-                ></lucide-icon>
+                @if(!isSaved) {<lucide-icon [img]="Bookmark" class="text-gray-50 size-5"></lucide-icon>}
+                @if(isSaved) {<lucide-icon [img]="Bookmark" class="text-gray-50 size-5 fill-blue-50"></lucide-icon>}
             </button>
         </div>
 

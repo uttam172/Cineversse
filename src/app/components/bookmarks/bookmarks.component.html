@@ -1,1 +1,18 @@
-<p>bookmarks works!</p>
+<main class="h-screen w-screen overflow-y-scroll scrollbar-none">
+    <div class="pattern"></div>
+
+    <div class="wrapper mt-10">
+        <header>
+            <h1>Added <span class="text-gradient">Movies</span></h1>
+        </header>
+
+        <section class="all-movies">
+            <h2 class="mt-10">Movies</h2>
+            <ul>
+                @for (movie of movies; track movie.id) {
+                <app-card [movie]="movie"></app-card>
+                }
+            </ul>
+        </section>
+    </div>
+</main>

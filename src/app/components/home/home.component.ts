@@ -5,7 +5,6 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
 import { CardComponent } from '../card/card.component';
 import { SearchComponent } from '../search/search.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
-import { HeaderComponent } from '../header/header.component';
 
 import { Movie } from '../../models/movie.model';
 
@@ -14,7 +13,7 @@ import { updateSearchCount } from '../../../appwrite';
 
 @Component({
   selector: 'app-home',
-  imports: [CardComponent, SearchComponent, CommonModule, SpinnerComponent, HeaderComponent],
+  imports: [CardComponent, SearchComponent, CommonModule, SpinnerComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
@@ -28,7 +27,8 @@ export class HomeComponent {
 
   constructor(private tmdbService: TmdbApiService) { }
 
-  ngOnInit() {
+  // ngOnInit() {
+  tmdbMovies() {
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),

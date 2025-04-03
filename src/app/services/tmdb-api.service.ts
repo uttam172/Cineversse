@@ -22,7 +22,6 @@ export class TmdbApiService {
       authorization: `Bearer ${environment.apiKey}`
     }
   }
-
   
   fetchMovies(query: string = ""): Observable<any> {
     return this.http.get<Movie[]>(query

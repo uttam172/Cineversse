@@ -1,0 +1,102 @@
+<main class="h-screen w-screen overflow-y-scroll scrollbar-none">
+    <div class="pattern"></div>
+
+    <div class="wrapper mt-10">
+        <header>
+            <h1>Add <span class="text-gradient">Movie</span> Details</h1>
+        </header>
+
+        <section class="all-movies">
+            <h2 class="my-10">Do you know about new movies</h2>
+
+            <div class="flex justify-center items-center ">
+                <div class="backdrop-blur-lg w-full p-7 shadow-lg">
+
+                    <form
+                        (ngSubmit)="submitForm()"
+                        class="space-y-10 grid grid-cols-1"
+                    >
+                        <div class="flex justify-center items-center gap-10">
+                            <!-- Movie ID -->
+                            <input
+                                type="number"
+                                [(ngModel)]="movie.id"
+                                placeholder="Movie Id..."
+                                name="id"
+                                class="w-full p-2 text-white border-b border-white outline-none"
+                            >
+
+                            <!-- Title -->
+                            <input
+                                type="text"
+                                [(ngModel)]="movie.title"
+                                placeholder="Title..."
+                                name="title"
+                                class="w-full p-2 text-white border-b border-white outline-none"
+                            >
+
+                            <!-- Vote Average -->
+                            <input
+                                type="number"
+                                step="0.1"
+                                [(ngModel)]="movie.vote_average"
+                                placeholder="Average Vote..."
+                                name="vote_average"
+                                class="w-full p-2 text-white border-b border-white outline-none"
+                            >
+                        </div>
+
+                        <div class="flex justify-center items-center gap-10">
+                            <!-- Release Date -->
+                            <input
+                                type="date"
+                                [(ngModel)]="movie.release_date"
+                                placeholder="Release Date..."
+                                name="release_date"
+                                class="w-full p-2 text-white border-b border-white outline-none"
+                            >
+
+                            <!-- Original Language -->
+                            <input
+                                type="text"
+                                [(ngModel)]="movie.original_language"
+                                placeholder="Language..."
+                                name="original_language"
+                                class="w-full p-2 text-white border-b border-white outline-none"
+                            >
+                        </div>
+
+                        <!-- Poster Path (with Image Preview) -->
+                        <div class="flex justify-center items-center gap-10">
+                            <input
+                                type="url"
+                                [(ngModel)]="movie.poster_path"
+                                name="poster_path"
+                                placeholder="Poster URL..."
+                                (input)="updateImagePreview()"
+                                class="w-[60%] p-2 text-white border-b border-white outline-none"
+                            >
+                            <div
+                                *ngIf="validImageUrl"
+                                class="mt-2"
+                            >
+                                <img
+                                    [src]="movie.poster_path"
+                                    class="rounded-lg shadow-lg max-h-40 w-full object-contain"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button
+                            type="submit"
+                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
