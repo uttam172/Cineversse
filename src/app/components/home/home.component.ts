@@ -27,8 +27,7 @@ export class HomeComponent {
 
   constructor(private tmdbService: TmdbApiService) { }
 
-  // ngOnInit() {
-  tmdbMovies() {
+  ngOnInit() {
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),

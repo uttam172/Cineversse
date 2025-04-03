@@ -16,7 +16,6 @@ export class BookmarksComponent {
 
   ngOnInit() {
     this.movieService.getMovies().subscribe((data: any) => {
-      console.log(data)
       this.movies = data
     })
   }

@@ -19,7 +19,7 @@ export class TmdbApiService {
     method: 'GET',
     headers: {
       accept: 'application/json',
-      authorization: `Bearer ${environment.apiKey}`
+      authorization: `Bearer ${environment.apiToken}`
     }
   }
   
