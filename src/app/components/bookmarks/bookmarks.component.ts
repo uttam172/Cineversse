@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+
 import { Movie } from '../../models/movie.model';
+
 import { CardComponent } from '../card/card.component';
 
 @Component({

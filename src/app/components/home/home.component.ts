@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core'
+import { CommonModule } from '@angular/common'
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
 
-import { CardComponent } from '../card/card.component';
-import { SearchComponent } from '../search/search.component';
-import { SpinnerComponent } from '../spinner/spinner.component';
+import { CardComponent } from '../card/card.component'
+import { SearchComponent } from '../search/search.component'
+import { SpinnerComponent } from '../spinner/spinner.component'
 
-import { Movie } from '../../models/movie.model';
+import { Movie } from '../../models/movie.model'
 
-import { TmdbApiService } from '../../services/tmdb-api.service';
-import { updateSearchCount } from '../../../appwrite';
+import { TmdbApiService } from '../../services/tmdb-api.service'
+import { AppwriteService } from '../../services/appwrite.service'
 
 @Component({
   selector: 'app-home',
@@ -25,51 +25,51 @@ export class HomeComponent {
 
   private searchSubject = new Subject<string>()
 
-  constructor(private tmdbService: TmdbApiService) { }
+  constructor(private tmdbService: TmdbApiService, private appwriteService: AppwriteService) { }
 
   ngOnInit() {
     this.searchSubject.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       switchMap((query) => {
-        this.isLoading = true;
+        this.isLoading = true
         return this.tmdbService.fetchMovies(query)
       })
     ).subscribe({
       next: (data: any) => {
-        this.movies = data.results;
-        this.isLoading = false;
+        this.movies = data.results
+        this.isLoading = false
         if (this.query && data.results.length > 0) {
-          console.log(this.query, data.results[0]);
-          updateSearchCount(this.query, data.results[0])
+          console.log(this.query, data.results[0])
+          this.appwriteService.updateSearchCount(this.query, data.results[0])
         }
-        console.log("From app.component.js: ", data);
+        console.log("From app.component.js: ", data)
       },
       error: (err: string) => {
-        console.log('API error:', err);
-        this.error = 'Problem fetching movies, Try again later';
-        this.isLoading = false;
+        console.log('API error:', err)
+        this.error = 'Problem fetching movies, Try again later'
+        this.isLoading = false
       }
     })
-    this.fetchMovies('');
+    this.fetchMovies('')
   }
 
   setQuery(val: string) {
-    this.searchSubject.next(val);
+    this.searchSubject.next(val)
   }
 
   fetchMovies(query: string) {
-    this.isLoading = true;
+    this.isLoading = true
     this.tmdbService.fetchMovies(query).subscribe({
       next: (data: any) => {
-        this.movies = data.results;
-        this.isLoading = false;
+        this.movies = data.results
+        this.isLoading = false
       },
       error: (err: string) => {
-        console.log('API error:', err);
-        this.error = 'Problem fetching movies, Try again later';
-        this.isLoading = false;
+        console.log('API error:', err)
+        this.error = 'Problem fetching movies, Try again later'
+        this.isLoading = false
       }
-    });
+    })
   }
 }

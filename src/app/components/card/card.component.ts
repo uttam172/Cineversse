@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 
 import { LucideAngularModule, Bookmark } from 'lucide-angular';
 
-import { createBookmark } from '../../../appwrite';
+import { AppwriteService } from '../../services/appwrite.service';
 
 @Component({
   selector: 'app-card',
@@ -21,6 +21,8 @@ export class CardComponent {
   hasLiked: boolean = false
   likesCount: number = 0
 
+  constructor(private appwriteService:AppwriteService) {}
+
   handleLike() {
     // console.log(this.title, "has been liked", !this.hasLiked)
     this.likesCount += this.hasLiked ? -1 : 1
@@ -29,7 +31,7 @@ export class CardComponent {
 
   handleBookmark() {
     if (this.isSaved !== true) {
-      createBookmark(this.movie)
+      this.appwriteService.createBookmark(this.movie)
     }
     this.isSaved = !this.isSaved
   }

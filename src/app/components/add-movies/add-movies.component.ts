@@ -30,8 +30,10 @@ export class AddMoviesComponent implements OnInit {
     this.getMovies()
   }
 
+
+  // Form functions
   getEmptyMovie(): Movie {
-    return { id: '', title: '', poster_path: '', vote_average: 0, release_date: '', original_language: '' }
+    return { id: '', title: '', poster_path: '', vote_average: null, release_date: '', original_language: '' } as unknown as Movie
   }
 
   clearForm(movieForm: any) {
@@ -54,6 +56,7 @@ export class AddMoviesComponent implements OnInit {
   }
 
 
+  // Movies CRUD functions
   getMovies() {
     this.appwriteService.fetchMovie().subscribe(
       (data) => {
