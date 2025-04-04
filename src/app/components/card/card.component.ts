@@ -16,7 +16,7 @@ export class CardComponent {
 
   readonly Bookmark = Bookmark
 
-  @Input() movie!: { id: number; title: string; poster_path: string; vote_average: number; release_date: string; original_language: string }
+  @Input() movie!: { id: string; title: string; poster_path: string; vote_average: number; release_date: string; original_language: string }
 
   hasLiked: boolean = false
   likesCount: number = 0

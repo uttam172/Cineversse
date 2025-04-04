@@ -19,59 +19,102 @@
 
                         <!-- Title & Vote Average -->
                         <div class="flex justify-center items-center gap-10">
-                            <input
-                                type="text"
-                                name="title"
-                                placeholder="Title..."
-                                [(ngModel)]="movie.title"
-                                class="w-full p-2 text-white border-b border-white outline-none"
-                                required
-                            />
+                            <div class="w-full">
+                                <input
+                                    type="text"
+                                    name="title"
+                                    placeholder="Title..."
+                                    [(ngModel)]="movie.title"
+                                    #title="ngModel"
+                                    class="w-full p-2 text-white border-b outline-none"
+                                    [ngClass]="{ 'border-red-500': title.invalid && title.touched }"
+                                    required
+                                    minlength="1"
+                                />
+                                <p
+                                    *ngIf="title.invalid && title.touched"
+                                    class="text-red-500 text-sm"
+                                >Title must be at least 2 characters long.</p>
+                            </div>
 
-                            <input
-                                type="number"
-                                name="vote_average"
-                                placeholder="Average Vote..."
-                                step="0.1"
-                                min="0.0"
-                                max="10.0"
-                                [(ngModel)]="movie.vote_average"
-                                class="w-full p-2 text-white border-b border-white outline-none"
-                                required
-                            />
+                            <div class="w-full">
+                                <input
+                                    type="number"
+                                    name="vote_average"
+                                    placeholder="Average Vote..."
+                                    step="0.1"
+                                    min="0.0"
+                                    max="10.0"
+                                    [(ngModel)]="movie.vote_average"
+                                    #voteAverage="ngModel"
+                                    class="w-full p-2 text-white border-b outline-none"
+                                    [ngClass]="{ 'border-red-500': voteAverage.invalid && voteAverage.touched }"
+                                    required
+                                />
+                                <p
+                                    *ngIf="voteAverage.invalid && voteAverage.touched"
+                                    class="text-red-500 text-sm"
+                                >Vote must be between 0.0 to 10.0</p>
+                            </div>
                         </div>
 
                         <!-- Release Date & Language -->
                         <div class="flex justify-center items-center gap-10">
-                            <input
-                                type="date"
-                                name="release_date"
-                                placeholder="Release Date..."
-                                [(ngModel)]="movie.release_date"
-                                class="w-full p-2 text-white border-b border-white outline-none"
-                                required
-                            />
+                            <div class="w-full">
+                                <input
+                                    type="date"
+                                    name="release_date"
+                                    [(ngModel)]="movie.release_date"
+                                    #releaseDate="ngModel"
+                                    class="w-full p-2 text-white border-b outline-none"
+                                    [ngClass]="{ 'border-red-500': releaseDate.invalid && releaseDate.touched }"
+                                    required
+                                />
+                                <p
+                                    *ngIf="releaseDate.invalid && releaseDate.touched"
+                                    class="text-red-500 text-sm"
+                                >Please select a valid date.</p>
+                            </div>
 
-                            <input
-                                type="text"
-                                name="original_language"
-                                placeholder="Language..."
-                                [(ngModel)]="movie.original_language"
-                                class="w-full p-2 text-white border-b border-white outline-none"
-                                required
-                            />
+                            <div class="w-full">
+                                <input
+                                    type="text"
+                                    name="original_language"
+                                    placeholder="Language..."
+                                    [(ngModel)]="movie.original_language"
+                                    #originalLanguage="ngModel"
+                                    class="w-full p-2 text-white border-b outline-none"
+                                    [ngClass]="{ 'border-red-500': originalLanguage.invalid && originalLanguage.touched }"
+                                    required
+                                    pattern="[A-Za-z]+"
+                                />
+                                <p
+                                    *ngIf="originalLanguage.invalid && originalLanguage.touched"
+                                    class="text-red-500 text-sm"
+                                >Language must contain only letters.</p>
+                            </div>
                         </div>
 
                         <!-- Poster Path & Preview -->
                         <div class="flex justify-center items-center gap-10">
-                            <input
-                                type="url"
-                                name="poster_path"
-                                placeholder="Poster URL..."
-                                [(ngModel)]="movie.poster_path"
-                                class="w-[60%] p-2 text-white border-b border-white outline-none"
-                                (input)="updateImagePreview()"
-                            />
+                            <div class="w-[60%]">
+                                <input
+                                    type="url"
+                                    name="poster_path"
+                                    placeholder="Poster URL..."
+                                    [(ngModel)]="movie.poster_path"
+                                    #posterPath="ngModel"
+                                    class="w-full p-2 text-white border-b outline-none"
+                                    [ngClass]="{ 'border-red-500': posterPath.invalid && posterPath.touched }"
+                                    required
+                                    pattern="https?://.+"
+                                    (input)="updateImagePreview()"
+                                />
+                                <p
+                                    *ngIf="posterPath.invalid && posterPath.touched"
+                                    class="text-red-500 text-sm"
+                                >Enter a valid URL.</p>
+                            </div>
 
                             <img
                                 *ngIf="validImageUrl"

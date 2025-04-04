@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 
-import { MovieService } from '../../services/movie.service'
 import { AppwriteService } from '../../services/appwrite.service'
 
 import { Movie } from '../../models/movie.model'
@@ -25,7 +24,7 @@ export class AddMoviesComponent implements OnInit {
   isEditing = false
   validImageUrl = false
 
-  constructor(private movieService: MovieService, private appwriteService: AppwriteService) { }
+  constructor(private appwriteService: AppwriteService) { }
 
   ngOnInit() {
     this.getMovies()
@@ -69,6 +68,7 @@ export class AddMoviesComponent implements OnInit {
     this.isEditing = true
     this.appwriteService.fetchMovieById(id).subscribe(
       (data) => {
+        console.log(data);
         this.movie = { ...data, id: data.id ?? null }
         this.updateImagePreview()
       }, (err) => {
@@ -88,7 +88,8 @@ export class AddMoviesComponent implements OnInit {
         }
       )
     } else if (this.isEditing) {
-      this.appwriteService.editMovie(this.movie.id, this.movie).subscribe(
+      const { id, ...movieData } = this.movie
+      this.appwriteService.editMovie(id, movieData).subscribe(
         () => {
           this.getMovies()
           this.clearForm(movieForm)
@@ -97,6 +98,7 @@ export class AddMoviesComponent implements OnInit {
         }
       )
     }
+    console.log("Edit movie data: ", this.movie)
   }
 
   removeMovie(id: string) {

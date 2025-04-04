@@ -89,12 +89,20 @@ export class AppwriteService {
   }
 
   editMovie(id: string, updatedMovie: any): Observable<any> {
+
+    const { id: _, ...movieData } = updatedMovie
     return from(
       this.database.updateDocument(
         this.DATABSE_ID,
         this.MOVIE_COLLECTION_ID,
         id,
-        updatedMovie
+        {
+          movieTitle: movieData.title,
+          moviePoster: movieData.poster_path,
+          movieVote: movieData.vote_average,
+          movieLanguage: movieData.original_language,
+          movieRelease: movieData.release_date,
+        }
       )
     ).pipe(
       catchError(err => {

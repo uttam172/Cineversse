@@ -69,6 +69,16 @@ export const updateSearchCount = async (searchTerm: string, movie: any) => {
 };
 
 export const createBookmark = async (movie:any) => {
+
+    const data = {
+        movieTitle: movie.title,
+        moviePoster: movie.poster_path,
+        movieVote: movie.vote_average,
+        movieLanguage: movie.original_language,
+        movieRelease: movie.release_date,
+        movieId: movie.id
+    }
+    console.log(data)
     try {
         if (!movie || !movie.id || !movie.title || !movie.poster_path || !movie.vote_average || !movie.original_language || !movie.release_date) {
             throw new Error("Missing required bookmark fields");
@@ -78,15 +88,8 @@ export const createBookmark = async (movie:any) => {
             DATABASE_ID,
             BOOKMARKS_ID,
             ID.unique(), 
-            {
-                movie_id: movie.id,
-                movieTitle: movie.title,
-                moviePoster: movie.poster_path,
-                movieVote: movie.vote_average,
-                movieLanguage: movie.original_language,
-                movieRelease: movie.release_date
-            }
-        );
+            data
+        )
 
         console.log("Bookmark created successfully:", response);
         return response;
