@@ -88,7 +88,14 @@ export class AddMoviesComponent implements OnInit {
         }
       )
     } else if (this.isEditing) {
-      this.appwriteService.editMovie()
+      this.appwriteService.editMovie(this.movie.id, this.movie).subscribe(
+        () => {
+          this.getMovies()
+          this.clearForm(movieForm)
+        }, (err) => {
+          console.error("Error Updating Movie", err)
+        }
+      )
     }
   }
 
