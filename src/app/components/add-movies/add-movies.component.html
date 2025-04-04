@@ -7,95 +7,145 @@
         </header>
 
         <section class="all-movies">
-            <h2 class="my-10">Do you know about new movies</h2>
+            <h2 class="my-10">Do you know about new movies?</h2>
 
-            <div class="flex justify-center items-center ">
+            <div class="flex justify-center items-center">
                 <div class="backdrop-blur-lg w-full p-7 shadow-lg">
-
                     <form
-                        (ngSubmit)="submitForm()"
+                        #movieForm="ngForm"
+                        (ngSubmit)="submitMovie(movieForm)"
                         class="space-y-10 grid grid-cols-1"
                     >
-                        <div class="flex justify-center items-center gap-10">
-                            <!-- Movie ID -->   
-                            <input
-                                type="number"
-                                [(ngModel)]="movie.id"
-                                placeholder="Movie Id..."
-                                name="id"
-                                class="w-full p-2 text-white border-b border-white outline-none"
-                            >
 
-                            <!-- Title -->
+                        <!-- Title & Vote Average -->
+                        <div class="flex justify-center items-center gap-10">
                             <input
                                 type="text"
-                                [(ngModel)]="movie.title"
-                                placeholder="Title..."
                                 name="title"
+                                placeholder="Title..."
+                                [(ngModel)]="movie.title"
                                 class="w-full p-2 text-white border-b border-white outline-none"
-                            >
+                                required
+                            />
 
-                            <!-- Vote Average -->
                             <input
                                 type="number"
-                                step="0.1"
-                                [(ngModel)]="movie.vote_average"
-                                placeholder="Average Vote..."
                                 name="vote_average"
+                                placeholder="Average Vote..."
+                                step="0.1"
+                                min="0.0"
+                                max="10.0"
+                                [(ngModel)]="movie.vote_average"
                                 class="w-full p-2 text-white border-b border-white outline-none"
-                            >
+                                required
+                            />
                         </div>
 
+                        <!-- Release Date & Language -->
                         <div class="flex justify-center items-center gap-10">
-                            <!-- Release Date -->
                             <input
                                 type="date"
-                                [(ngModel)]="movie.release_date"
-                                placeholder="Release Date..."
                                 name="release_date"
+                                placeholder="Release Date..."
+                                [(ngModel)]="movie.release_date"
                                 class="w-full p-2 text-white border-b border-white outline-none"
-                            >
+                                required
+                            />
 
-                            <!-- Original Language -->
                             <input
                                 type="text"
-                                [(ngModel)]="movie.original_language"
-                                placeholder="Language..."
                                 name="original_language"
+                                placeholder="Language..."
+                                [(ngModel)]="movie.original_language"
                                 class="w-full p-2 text-white border-b border-white outline-none"
-                            >
+                                required
+                            />
                         </div>
 
-                        <!-- Poster Path (with Image Preview) -->
+                        <!-- Poster Path & Preview -->
                         <div class="flex justify-center items-center gap-10">
                             <input
                                 type="url"
-                                [(ngModel)]="movie.poster_path"
                                 name="poster_path"
                                 placeholder="Poster URL..."
-                                (input)="updateImagePreview()"
+                                [(ngModel)]="movie.poster_path"
                                 class="w-[60%] p-2 text-white border-b border-white outline-none"
-                            >
-                            <div
+                                (input)="updateImagePreview()"
+                            />
+
+                            <img
                                 *ngIf="validImageUrl"
-                                class="mt-2"
-                            >
-                                <img
-                                    [src]="movie.poster_path"
-                                    class="rounded-lg shadow-lg max-h-40 w-full object-contain"
-                                >
-                            </div>
+                                [src]="getMoviePoster()"
+                                class="rounded-lg shadow-lg max-h-40 w-full object-contain"
+                            />
                         </div>
 
-                        <!-- Submit Button -->
-                        <button
-                            type="submit"
-                            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition"
-                        >
-                            Submit
-                        </button>
+                        <!-- Submit & Cancel Buttons -->
+                        <div class="w-full flex justify-center items-center gap-10">
+                            <button
+                                type="button"
+                                (click)="clearForm(movieForm)"
+                                class="w-60 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="w-60 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                            >
+                                {{ isEditing ? 'Update' : 'Submit' }}
+                            </button>
+                        </div>
                     </form>
                 </div>
+            </div>
+
+            <!-- Movies List -->
+            <div class="wrapper mt-10">
+                <section class="all-movies">
+                    <h2 class="mt-10">Added Movies</h2>
+                    <ul>
+                        @for (movie of movies; track movie.id) {
+                        <div class="movie-card relative">
+                            <img
+                                [src]="movie.poster_path ? movie.poster_path : './no-movie.png'"
+                                alt="{{movie.id}}"
+                                class=""
+                            >
+
+                            <div class="mt-4">
+                                <h3 class="">{{movie.title}}</h3>
+
+                                <div class="content">
+                                    <div class="rating">
+                                        <img
+                                            src="star.svg"
+                                            alt="star"
+                                        >
+                                        <p>{{movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}}</p>
+                                    </div>
+                                    <span>•</span>
+                                    <p class="lang">{{movie.original_language}}</p>
+                                    <span>•</span>
+                                    <p class="year">{{movie.release_date ? movie.release_date.split("-")[0] : 'N/A'}}</p>
+                                </div>
+                            </div>
+
+                            <div class="absolute bottom-2 right-2 flex justify-center items-center gap-3 z-50">
+                                <button (click)="getSelectedMovie(movie.id)"><lucide-angular
+                                        [img]="PenSquare"
+                                        class="text-blue-500 size-5"
+                                    ></lucide-angular></button>
+                                <button (click)="removeMovie(movie.id)"><lucide-angular
+                                        [img]="Trash2"
+                                        class="text-red-500 size-5"
+                                    ></lucide-angular></button>
+                            </div>
+                        </div>
+                        }
+                    </ul>
+                </section>
             </div>
         </section>
     </div>

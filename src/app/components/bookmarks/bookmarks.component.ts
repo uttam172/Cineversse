@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { Movie } from '../../models/movie.model';
 import { MovieService } from '../../services/movie.service';
 import { CardComponent } from '../card/card.component';
-import { Movie } from '../../models/movie.model';
 
 @Component({
   selector: 'app-bookmarks',
@@ -14,9 +14,4 @@ export class BookmarksComponent {
 
   constructor(private movieService: MovieService) { }
 
-  ngOnInit() {
-    this.movieService.getMovies().subscribe((data: any) => {
-      this.movies = data
-    })
-  }
 }
