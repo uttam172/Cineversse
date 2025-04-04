@@ -76,7 +76,7 @@
                             <img
                                 *ngIf="validImageUrl"
                                 [src]="getMoviePoster()"
-                                class="rounded-lg shadow-lg max-h-40 w-full object-contain"
+                                class="rounded-lg shadowmd shadow-[0_0_10px_1px_rgba(255,255,255,0.5)] max-h-40 object-contain overflow-hidden"
                             />
                         </div>
 
@@ -132,7 +132,7 @@
                                 </div>
                             </div>
 
-                            <div class="absolute bottom-2 right-2 flex justify-center items-center gap-3 z-50">
+                            <div class="absolute w-[85%] flex justify-end items-center gap-5 bottom-3">
                                 <button (click)="getSelectedMovie(movie.id)"><lucide-angular
                                         [img]="PenSquare"
                                         class="text-blue-500 size-5"
