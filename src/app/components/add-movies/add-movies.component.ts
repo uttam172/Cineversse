@@ -7,6 +7,7 @@ import { AppwriteService } from '../../services/appwrite.service'
 import { Movie } from '../../models/movie.model'
 
 import { LucideAngularModule, Trash2, PenSquare } from 'lucide-angular'
+import { HotToastService } from '@ngxpert/hot-toast'
 
 import { SpinnerComponent } from '../spinner/spinner.component'
 
@@ -34,7 +35,7 @@ export class AddMoviesComponent implements OnInit {
   isLoading: boolean = false
   error: string = ''
 
-  constructor(private appwriteService: AppwriteService) { }
+  constructor(private appwriteService: AppwriteService, private toast: HotToastService) { }
 
   ngOnInit() {
     this.getMovies()
@@ -137,9 +138,10 @@ export class AddMoviesComponent implements OnInit {
         () => {
           this.getMovies()
           this.clearForm(movieForm)
-          alert('Movie Added Successfully...')  // replace with toast
+          this.toast.success('👏 Whoop whoop! Your movie has been added successfully 🎬 Let’s roll credits!')
         }, (err) => {
           console.error("Error Submitting Movie", err)
+          this.toast.error('Oops! Something went wrong while adding your movie. 😞 Try again in a moment!', err)
         }
       )
       this.isLoading = false
@@ -150,9 +152,10 @@ export class AddMoviesComponent implements OnInit {
         () => {
           this.getMovies()
           this.clearForm(movieForm)
-          alert('Movie Updated Successfully...') // replace with toast
+          this.toast.success('🍿Boom! Your movie just got a glow-up — updated successfully!✨')
         }, (err) => {
           console.error("Error Updating Movie", err)
+          this.toast.error('💔 Update mission failed. The movie refused a rewrite. Give it another take!', err)
         }
       )
       this.isLoading = false
@@ -163,8 +166,10 @@ export class AddMoviesComponent implements OnInit {
     this.appwriteService.deleteMovie(id).subscribe(
       () => {
         this.movies = this.movies.filter(movie => movie.id !== id)
+        this.toast.success('✨Poof! Movie vanished like magic. Onward to better stories!')
       }, (err) => {
         console.error("Error Deleting Movie", err)
+        this.toast.error('⚠️ Couldn’t delete the movie! Server’s playing hard to get.', err)
       }
     )
   }
