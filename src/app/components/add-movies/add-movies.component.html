@@ -27,7 +27,7 @@
                                 <input
                                     type="text"
                                     name="title"
-                                    placeholder="Title..."
+                                    placeholder="e.g. Avangers"
                                     [(ngModel)]="movie.title"
                                     #title="ngModel"
                                     class="w-full p-2 text-white border-b outline-none"
@@ -46,7 +46,7 @@
                                 <input
                                     type="text"
                                     name="vote_average"
-                                    placeholder="Average Ratings..."
+                                    placeholder="e.g. 9.4"
                                     [(ngModel)]="movie.vote_average"
                                     (input)="onVoteInput($event)"
                                     #voteAverage="ngModel"
@@ -86,19 +86,25 @@
                                 <input
                                     type="text"
                                     name="original_language"
-                                    placeholder="Language..."
+                                    placeholder="e.g. en"
+                                    maxlength="2"
+                                    minlength="2"
+                                    pattern="^[A-Za-z]{2}$"
                                     [(ngModel)]="movie.original_language"
                                     #originalLanguage="ngModel"
                                     class="w-full p-2 text-white border-b outline-none"
-                                    [ngClass]="{ 'border-red-500': originalLanguage.invalid && originalLanguage.touched }"
+                                    [ngClass]="{'border-red-500': originalLanguage.invalid && originalLanguage.touched}"
+                                    (input)="onLangInput($event)"
                                     required
-                                    pattern="[A-Za-z]+"
                                 />
                                 <p
                                     *ngIf="originalLanguage.invalid && originalLanguage.touched"
                                     class="text-red-500 text-sm"
-                                >Language must contain only letters.</p>
+                                >
+                                    Language must be exactly 2 letters (e.g. "en", "fr").
+                                </p>
                             </div>
+
                         </div>
 
                         <!-- Poster Path & Preview -->
@@ -108,7 +114,7 @@
                                 <input
                                     type="url"
                                     name="poster_path"
-                                    placeholder="Poster URL..."
+                                    placeholder="e.g. https://<YOUR URL>"
                                     [(ngModel)]="movie.poster_path"
                                     #posterPath="ngModel"
                                     class="w-full p-2 text-white border-b outline-none"

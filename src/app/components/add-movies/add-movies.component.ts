@@ -77,6 +77,12 @@ export class AddMoviesComponent implements OnInit {
     this.movie.vote_average = parseFloat(formatted || '0.0');
   }
 
+  onLangInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^a-zA-Z]/g, '').substring(0, 2);
+    this.movie.original_language = input.value;
+  }  
+
   updateImagePreview() {
     this.validImageUrl = !!this.movie.poster_path
   }
@@ -92,86 +98,94 @@ export class AddMoviesComponent implements OnInit {
 
   // Movies CRUD functions
   getMovies() {
-    try {
-      this.isLoading = true
-      this.appwriteService.fetchMovie().subscribe(
-        (data) => {
-          this.movies = data
-        }, (err) => {
-          console.log("Error Loading Movies", err)
-        }
-      )
-    } catch (err) {
-      this.error = 'Error Fetching Movies, Try Again latter...'
-    } finally {
-      this.isLoading = false
-    }
+    this.isLoading = true
+    this.appwriteService.fetchMovie().subscribe(
+      (data) => {
+        this.movies = data
+        this.isLoading = false
+      }, (err) => {
+        console.log("Error Loading Movies", err)
+        this.toast.error("🚨 Could not fetch movies. Please try again.")
+        this.error = "🚨 Could not fetch movies. Please try again."
+        this.isLoading = false
+      }
+    )
   }
 
   getSelectedMovie(id: string) {
-    try {
-      this.isLoading = true
-      this.isEditing = true
-      this.appwriteService.fetchMovieById(id).subscribe(
-        (data) => {
-          this.movie = { ...data, id: data.id ?? null }
-          this.updateImagePreview()
-          setTimeout(() => {
-            this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
-          }, 100)
-        }, (err) => {
-          console.error("Error Loading Movie", err)
-        }
-      )
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } catch (err) {
-      this.error = 'Error getting selected movies data...'
-    } finally {
-      this.isLoading = false
-    }
+    this.isLoading = true
+    this.isEditing = true
+    this.appwriteService.fetchMovieById(id).subscribe(
+      (data) => {
+        this.movie = { ...data, id: data.id ?? null }
+        this.updateImagePreview()
+        setTimeout(() => {
+          this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        }, 100)
+        this.isLoading = false
+      }, (err) => {
+        console.error("Error Loading Movie", err)
+        this.toast.error("😔 Couldn't load selected movie.")
+        this.error = "😔 Couldn't load selected movie."
+        this.isLoading = false
+      }
+    )
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   submitMovie(movieForm: any) {
+    if (movieForm.invalid) {
+      this.toast.error('🚨 Hold up! Please fill in all required fields correctly before submitting.')
+      return
+    }
+    this.isLoading = true
     if (!this.isEditing) {
-      this.isLoading = true
       this.appwriteService.createMovie(this.movie).subscribe(
         () => {
           this.getMovies()
           this.clearForm(movieForm)
-          this.toast.success('👏 Whoop whoop! Your movie has been added successfully 🎬 Let’s roll credits!')
+          this.toast.success("👏 Whoop whoop! Your movie has been added successfully 🎬 Let's roll credits!")
+          this.isLoading = false
         }, (err) => {
           console.error("Error Submitting Movie", err)
           this.toast.error('Oops! Something went wrong while adding your movie. 😞 Try again in a moment!', err)
+          this.error = 'Oops! Something went wrong while adding your movie. 😞 Try again in a moment!'
+          this.isLoading = false
         }
       )
-      this.isLoading = false
     } else if (this.isEditing) {
-      this.isLoading = true
       const { id, ...movieData } = this.movie
       this.appwriteService.editMovie(id, movieData).subscribe(
         () => {
           this.getMovies()
           this.clearForm(movieForm)
           this.toast.success('🍿Boom! Your movie just got a glow-up — updated successfully!✨')
+          this.isLoading = false
         }, (err) => {
           console.error("Error Updating Movie", err)
           this.toast.error('💔 Update mission failed. The movie refused a rewrite. Give it another take!', err)
+          this.isLoading = false
         }
       )
-      this.isLoading = false
     }
+    this.isLoading = false
   }
 
   removeMovie(id: string) {
+    this.isLoading = true
     this.appwriteService.deleteMovie(id).subscribe(
       () => {
         this.movies = this.movies.filter(movie => movie.id !== id)
         this.toast.success('✨Poof! Movie vanished like magic. Onward to better stories!')
+        this.isLoading = false
       }, (err) => {
         console.error("Error Deleting Movie", err)
-        this.toast.error('⚠️ Couldn’t delete the movie! Server’s playing hard to get.', err)
+        this.toast.error("⚠️ Couldn't delete the movie! Server's playing hard to get.", err)
+        this.error = "⚠️ Couldn't delete the movie! Server's playing hard to get."
+        this.isLoading = false
       }
     )
   }
 
 }
+
