@@ -8,10 +8,12 @@ import { Movie } from '../../models/movie.model'
 
 import { LucideAngularModule, Trash2, PenSquare } from 'lucide-angular'
 
+import { SpinnerComponent } from '../spinner/spinner.component'
+
 @Component({
   selector: 'app-add-movies',
   standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule, SpinnerComponent],
   templateUrl: './add-movies.component.html',
 })
 
@@ -24,9 +26,13 @@ export class AddMoviesComponent implements OnInit {
 
   movie: Movie = this.getEmptyMovie()
   movies: Movie[] = []
-  isEditing = false
+
   validImageUrl = false
   formattedVote: string = ''
+
+  isEditing = false
+  isLoading: boolean = false
+  error: string = ''
 
   constructor(private appwriteService: AppwriteService) { }
 
@@ -85,54 +91,72 @@ export class AddMoviesComponent implements OnInit {
 
   // Movies CRUD functions
   getMovies() {
-    this.appwriteService.fetchMovie().subscribe(
-      (data) => {
-        this.movies = data
-      }, (err) => {
-        console.log("Error Loading Movies", err);
-      }
-    )
+    try {
+      this.isLoading = true
+      this.appwriteService.fetchMovie().subscribe(
+        (data) => {
+          this.movies = data
+        }, (err) => {
+          console.log("Error Loading Movies", err)
+        }
+      )
+    } catch (err) {
+      this.error = 'Error Fetching Movies, Try Again latter...'
+    } finally {
+      this.isLoading = false
+    }
   }
 
   getSelectedMovie(id: string) {
-    this.isEditing = true
-    this.appwriteService.fetchMovieById(id).subscribe(
-      (data) => {
-        console.log(data);
-        this.movie = { ...data, id: data.id ?? null }
-        this.updateImagePreview()
-        setTimeout(() => {
-          this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
-        }, 100)
-      }, (err) => {
-        console.error("Error Loading Movie", err)
-      }
-    )
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    try {
+      this.isLoading = true
+      this.isEditing = true
+      this.appwriteService.fetchMovieById(id).subscribe(
+        (data) => {
+          this.movie = { ...data, id: data.id ?? null }
+          this.updateImagePreview()
+          setTimeout(() => {
+            this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+          }, 100)
+        }, (err) => {
+          console.error("Error Loading Movie", err)
+        }
+      )
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (err) {
+      this.error = 'Error getting selected movies data...'
+    } finally {
+      this.isLoading = false
+    }
   }
 
   submitMovie(movieForm: any) {
     if (!this.isEditing) {
+      this.isLoading = true
       this.appwriteService.createMovie(this.movie).subscribe(
         () => {
           this.getMovies()
           this.clearForm(movieForm)
+          alert('Movie Added Successfully...')  // replace with toast
         }, (err) => {
           console.error("Error Submitting Movie", err)
         }
       )
+      this.isLoading = false
     } else if (this.isEditing) {
+      this.isLoading = true
       const { id, ...movieData } = this.movie
       this.appwriteService.editMovie(id, movieData).subscribe(
         () => {
           this.getMovies()
           this.clearForm(movieForm)
+          alert('Movie Updated Successfully...') // replace with toast
         }, (err) => {
           console.error("Error Updating Movie", err)
         }
       )
+      this.isLoading = false
     }
-    console.log("Edit movie data: ", this.movie)
   }
 
   removeMovie(id: string) {

@@ -6,6 +6,9 @@
             <h1 #formSection>Add <span class="text-gradient">Movie</span> Details</h1>
         </header>
 
+        @if (isLoading) {<div class="w-full h-[500px] flex justify-center items-center"><app-spinner></app-spinner></div>}
+        @else if (error) {<p class="w-full h-[500px] flex justify-center items-center text-red-500 text-center">{{error}}</p>}
+        @else {
         <section class="all-movies">
             <h2 class="my-10">Do you know about new movies?</h2>
 
@@ -14,7 +17,7 @@
                     <form
                         #movieForm="ngForm"
                         (ngSubmit)="submitMovie(movieForm)"
-                        class="space-y-10 grid grid-cols-1"                        
+                        class="space-y-10 grid grid-cols-1"
                     >
 
                         <!-- Title & Vote Average -->
@@ -195,5 +198,6 @@
                 </section>
             </div>
         </section>
+        }
     </div>
 </main>
