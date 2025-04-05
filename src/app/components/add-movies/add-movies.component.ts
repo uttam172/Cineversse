@@ -35,7 +35,10 @@ export class AddMoviesComponent implements OnInit {
   isLoading: boolean = false
   error: string = ''
 
-  constructor(private appwriteService: AppwriteService, private toast: HotToastService) { }
+  constructor(
+    private appwriteService: AppwriteService, 
+    private toast: HotToastService
+  ) { }
 
   ngOnInit() {
     this.getMovies()

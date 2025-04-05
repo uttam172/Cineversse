@@ -7,6 +7,7 @@ import { SearchComponent } from '../search/search.component'
 import { SpinnerComponent } from '../spinner/spinner.component'
 
 import { Movie } from '../../models/movie.model'
+import { HotToastService } from '@ngxpert/hot-toast'
 
 import { TmdbApiService } from '../../services/tmdb-api.service'
 import { AppwriteService } from '../../services/appwrite.service'
@@ -25,7 +26,11 @@ export class HomeComponent {
 
   private searchSubject = new Subject<string>()
 
-  constructor(private tmdbService: TmdbApiService, private appwriteService: AppwriteService) { }
+  constructor(
+    private tmdbService: TmdbApiService,
+    private appwriteService: AppwriteService,
+    private toast: HotToastService
+  ) { }
 
   ngOnInit() {
     this.searchSubject.pipe(
@@ -48,6 +53,7 @@ export class HomeComponent {
       error: (err: string) => {
         console.log('API error:', err)
         this.error = 'Problem fetching movies, Try again later'
+        this.toast.error('Problem fetching movies, Try again later')
         this.isLoading = false
       }
     })
@@ -68,6 +74,7 @@ export class HomeComponent {
       error: (err: string) => {
         console.log('API error:', err)
         this.error = 'Problem fetching movies, Try again later'
+        this.toast.error("Problem fetching movies, Try again later")
         this.isLoading = false
       }
     })
