@@ -2,9 +2,9 @@ import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs'
 
-import { CardComponent } from '../card/card.component'
-import { SearchComponent } from '../search/search.component'
-import { SpinnerComponent } from '../spinner/spinner.component'
+import { CardComponent } from '../../components/card/card.component'
+import { SearchComponent } from '../../components/search/search.component'
+import { SpinnerComponent } from '../../components/spinner/spinner.component'
 
 import { Movie } from '../../models/movie.model'
 import { HotToastService } from '@ngxpert/hot-toast'

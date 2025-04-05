@@ -9,7 +9,7 @@ import { Movie } from '../../models/movie.model'
 import { LucideAngularModule, Trash2, PenSquare } from 'lucide-angular'
 import { HotToastService } from '@ngxpert/hot-toast'
 
-import { SpinnerComponent } from '../spinner/spinner.component'
+import { SpinnerComponent } from '../../components/spinner/spinner.component'
 
 @Component({
   selector: 'app-add-movies',
