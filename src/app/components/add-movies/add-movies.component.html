@@ -1,9 +1,9 @@
-<main class="h-screen w-screen overflow-y-scroll scrollbar-none">
+<main class="h-screen w-screen overflow-y-scroll scrollbar-none scroll-smooth">
     <div class="pattern"></div>
 
     <div class="wrapper mt-10">
         <header>
-            <h1>Add <span class="text-gradient">Movie</span> Details</h1>
+            <h1 #formSection>Add <span class="text-gradient">Movie</span> Details</h1>
         </header>
 
         <section class="all-movies">
@@ -14,12 +14,13 @@
                     <form
                         #movieForm="ngForm"
                         (ngSubmit)="submitMovie(movieForm)"
-                        class="space-y-10 grid grid-cols-1"
+                        class="space-y-10 grid grid-cols-1"                        
                     >
 
                         <!-- Title & Vote Average -->
-                        <div class="flex justify-center items-center gap-10">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-10">
                             <div class="w-full">
+                                <label class="text-white">Movie Name</label>
                                 <input
                                     type="text"
                                     name="title"
@@ -38,15 +39,15 @@
                             </div>
 
                             <div class="w-full">
+                                <label class="text-white">Rating</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     name="vote_average"
-                                    placeholder="Average Vote..."
-                                    step="0.1"
-                                    min="0.0"
-                                    max="10.0"
+                                    placeholder="Average Ratings..."
                                     [(ngModel)]="movie.vote_average"
+                                    (input)="onVoteInput($event)"
                                     #voteAverage="ngModel"
+                                    maxlength="3"
                                     class="w-full p-2 text-white border-b outline-none"
                                     [ngClass]="{ 'border-red-500': voteAverage.invalid && voteAverage.touched }"
                                     required
@@ -59,8 +60,9 @@
                         </div>
 
                         <!-- Release Date & Language -->
-                        <div class="flex justify-center items-center gap-10">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-10">
                             <div class="w-full">
+                                <label class="text-white">Release Date</label>
                                 <input
                                     type="date"
                                     name="release_date"
@@ -77,6 +79,7 @@
                             </div>
 
                             <div class="w-full">
+                                <label class="text-white">Original Language</label>
                                 <input
                                     type="text"
                                     name="original_language"
@@ -96,8 +99,9 @@
                         </div>
 
                         <!-- Poster Path & Preview -->
-                        <div class="flex justify-center items-center gap-10">
-                            <div class="w-[60%]">
+                        <div class="flex flex-col sm:flex-row justify-center items-center gap-10">
+                            <div class="sm:w-[60%] w-full">
+                                <label class="text-white">Movie Poster URL</label>
                                 <input
                                     type="url"
                                     name="poster_path"
@@ -128,14 +132,14 @@
                             <button
                                 type="button"
                                 (click)="clearForm(movieForm)"
-                                class="w-60 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                                class="w-60 bg-linear-to-r from-gray-500 to-gray-900 hover:from-teal-500 hover:to-green-400 active:from-rose-500 active:to-rose-950 text-white font-bold text-xl py-2 px-4 rounded-lg transition"
                             >
                                 Cancel
                             </button>
 
                             <button
                                 type="submit"
-                                class="w-60 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition"
+                                class="w-60 bg-linear-to-r from-cyan-500 to-blue-500 hover:from-teal-500 hover:to-green-400 active:from-rose-500 active:to-rose-950 text-white font-bold text-xl py-2 px-4 rounded-lg transition"
                             >
                                 {{ isEditing ? 'Update' : 'Submit' }}
                             </button>

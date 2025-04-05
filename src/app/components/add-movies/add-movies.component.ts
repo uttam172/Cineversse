@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 
 import { AppwriteService } from '../../services/appwrite.service'
@@ -14,7 +14,10 @@ import { LucideAngularModule, Trash2, PenSquare } from 'lucide-angular'
   imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './add-movies.component.html',
 })
+
 export class AddMoviesComponent implements OnInit {
+
+  @ViewChild('formSection') formSection!: ElementRef
 
   readonly Trash2 = Trash2
   readonly PenSquare = PenSquare
@@ -23,6 +26,7 @@ export class AddMoviesComponent implements OnInit {
   movies: Movie[] = []
   isEditing = false
   validImageUrl = false
+  formattedVote: string = ''
 
   constructor(private appwriteService: AppwriteService) { }
 
@@ -41,6 +45,29 @@ export class AddMoviesComponent implements OnInit {
     movieForm.resetForm()
     this.isEditing = false
     this.validImageUrl = false
+  }
+
+  onVoteInput(event: Event) {
+    const inputEl = event.target as HTMLInputElement;
+
+    // Grab only digits from the input
+    let raw = inputEl.value.replace(/\D/g, '');
+
+    // Limit to max 2 digits
+    if (raw.length > 2) {
+      raw = raw.slice(0, 2);
+    }
+
+    let formatted = '';
+
+    if (raw.length === 1) {
+      formatted = `${raw[0]}.`;
+    } else if (raw.length === 2) {
+      formatted = `${raw[0]}.${raw[1]}`;
+    }
+
+    this.formattedVote = formatted;
+    this.movie.vote_average = parseFloat(formatted || '0.0');
   }
 
   updateImagePreview() {
@@ -74,10 +101,14 @@ export class AddMoviesComponent implements OnInit {
         console.log(data);
         this.movie = { ...data, id: data.id ?? null }
         this.updateImagePreview()
+        setTimeout(() => {
+          this.formSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        }, 100)
       }, (err) => {
         console.error("Error Loading Movie", err)
       }
     )
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   submitMovie(movieForm: any) {
