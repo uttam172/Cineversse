@@ -49,15 +49,19 @@ Cineversse lets users explore **trending, upcoming, and popular movies** — fet
 Cineversse/
 ├── src/
 │   ├── app/
-│   │   ├── components/       # UI components (movie cards, modals, etc.)
-│   │   ├── pages/            # Home, Trending, Upcoming, Favorites
-│   │   ├── services/         # API + Appwrite integration
-│   │   ├── models/           # Type definitions (Movie, User, etc.)
-│   │   ├── guards/           # (Optional) Auth guards
-│   │   └── app.component.ts  # Root component
-│   ├── assets/               # Images, icons, etc.
-│   ├── environments/         # API URLs, config
-│   └── styles.css            # Tailwind setup
+│   │   ├── components/         # UI components (movie cards, modals, etc.)
+│   │   ├── pages/              # Home, Trending, Upcoming, Favorites
+│   │   ├── services/           # API + Appwrite integration
+│   │   ├── models/             # Type definitions (Movie, User, etc.)
+│   │   ├── app.component.html  # App entry point
+│   │   ├── app.config.ts       # App configurations
+│   │   ├── app.routes.ts       # All routes
+│   │   └── app.component.ts    # Root component
+│   ├── assets/                 # Images, icons, etc.
+│   ├── environments/           # API URLs, config
+│   ├── main.ts
+│   ├── index.html
+│   └── styles.css
 └── angular.json
 ```
 
